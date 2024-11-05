@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'qa_page.dart';  // Import the Q&A page
+import 'qa_page.dart'; // Import the Q&A page
 
 class HomePage extends StatelessWidget {
   @override
@@ -12,18 +12,6 @@ class HomePage extends StatelessWidget {
           'BreakFree.',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.chat_bubble_outline),
-            onPressed: () {
-              // Navigate to Q&A Page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => QAPage()),
-              );
-            },
-          ),
-        ],
       ),
       body: Center(
         child: Padding(
@@ -31,33 +19,77 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Report Section
               Text(
-                'Educational Material',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                'Report',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 5),
-              Text('Learn more about domestic violence'),
+              Text('File evidence to support your report'),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildOptionButton(context, Icons.menu_book, 'Read', '/read'),
-                  _buildOptionButton(context, Icons.security, 'Q&A', '/qa'), // Navigates to Q&A page
-                ],
+
+              // Larger Capture Button
+              Container(
+                width: 320, // Increased width
+                height: 250, // Increased height
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/capture');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.purple,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.all(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.camera_alt,
+                        size: 50, // Larger icon
+                        color: Colors.black,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Capture',
+                        style: TextStyle(
+                          fontSize: 18, // Larger text
+                          color: Colors.purple,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(height: 30),
+
+              // Resources Section
               Text(
                 'Resources',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 5),
               Text('Get immediate help and support'),
               SizedBox(height: 20),
+
+              // Row for Q&A and Assistance Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildOptionButton(context, Icons.camera_alt, 'Capture', '/capture'),
-                  _buildOptionButton(context, Icons.medical_services, 'Assistance', '/assistance'),
+                  _buildOptionButton(
+                    context,
+                    Icons.security,
+                    'Q&A',
+                    '/qa',
+                  ),
+                  _buildOptionButton(
+                    context,
+                    Icons.medical_services,
+                    'Assistance',
+                    '/assistance',
+                  ),
                 ],
               ),
             ],
@@ -102,14 +134,14 @@ class HomePage extends StatelessWidget {
 
   Widget _buildOptionButton(BuildContext context, IconData icon, String label, String route) {
     return Container(
-      width: 130,
-      height: 130,
+      width: 150, // Standard width
+      height: 150, // Standard height
       child: ElevatedButton(
         onPressed: () {
           if (route == '/qa') {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => QAPage()));  // Navigate to Q&A page
+            Navigator.push(context, MaterialPageRoute(builder: (context) => QAPage())); // Navigate to Q&A page
           } else {
-            Navigator.pushNamed(context, route);  // Navigate to other pages
+            Navigator.pushNamed(context, route); // Navigate to other pages
           }
         },
         style: ElevatedButton.styleFrom(
