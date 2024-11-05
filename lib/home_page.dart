@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'qa_page.dart'; // Import the Q&A page
+import 'assistance_page.dart'; // Import the Assistance page
 
 class HomePage extends StatelessWidget {
   @override
@@ -88,7 +89,7 @@ class HomePage extends StatelessWidget {
                     context,
                     Icons.medical_services,
                     'Assistance',
-                    '/assistance',
+                    '/assistance', // Ensure this is the correct route
                   ),
                 ],
               ),
@@ -139,7 +140,15 @@ class HomePage extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (route == '/qa') {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => QAPage())); // Navigate to Q&A page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => QAPage()), // Navigate to Q&A page
+            );
+          } else if (route == '/assistance') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AssistancePage()), // Navigate to Assistance page
+            );
           } else {
             Navigator.pushNamed(context, route); // Navigate to other pages
           }
