@@ -1,7 +1,4 @@
-// lib/qa_page.dart
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class QAPage extends StatefulWidget {
   @override
@@ -12,31 +9,46 @@ class _QAPageState extends State<QAPage> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [];
 
-  // Replace with your API call
-  Future<void> _getBotResponse(String message) async {
-    // Example with Dialogflow or OpenAI's API
-    final response = await http.post(
-      Uri.parse('https://api.openai.com/v1/completions'), // Replace with your API URL
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_API_KEY',
-      },
-      body: json.encode({
-        "model": "text-davinci-003",
-        "prompt": message,
-        "max_tokens": 100,
-        "temperature": 0.7,
-      }),
-    );
+  // Simulate bot responses based on simple keywords or questions
+  void _getBotResponse(String message) {
+    String response;
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        _messages.add({"bot": data['choices'][0]['text'].trim()});
-      });
-    } else {
-      print("Failed to load chatbot response");
-    }
+ if (message.toLowerCase().contains("hello")|| message.toLowerCase().contains("hi")) {
+      response = "Hello! How can I assist you today?";
+
+} else if (message.toLowerCase().contains("domestic") || message.toLowerCase().contains("violence")) {
+  response = "Domestic violence is a serious issue, and BreakFree is here to provide support, resources, and information.";
+
+} else if (message.toLowerCase().contains("sign") || message.toLowerCase().contains("symptom")) {
+    response = "Signs of domestic violence can include controlling behavior, isolation from family and friends, verbal threats, physical harm, and emotional manipulation.";
+
+} else if (message.toLowerCase().contains("what") || message.toLowerCase().contains("do")) {
+  response = "Contact us and lodge you report now through our Capture feature.";
+
+} else if (message.toLowerCase().contains("resources")) {
+    response = "Our app provides local resources including nearby shelters, hospitals, and hotlines. You can find help close by anytime.";
+
+} else if (message.toLowerCase().contains("emergency") || message.toLowerCase().contains("help")) {
+    response = "Press the 'SOS' button to alert authorities.";
+
+} else if (message.toLowerCase().contains("confidentiality")) {
+    response = "Your privacy and safety are our top priorities. We offer data security to keep your information secure.";
+
+} else if (message.toLowerCase().contains("trauma")) {
+    response = "Our app is designed to be sensitive to trauma, avoiding potentially triggering content while offering support resources.";
+
+} else if (message.toLowerCase().contains("stigma")) {
+    response = "We understand the fear of stigma. Our app offers anonymous support, so you can access help privately and securely.";
+
+} else {
+    response = "I'm here to help, but I didn't quite understand that. Could you please rephrase?";
+}
+
+
+    // Add bot response to the messages list
+    setState(() {
+      _messages.add({"bot": response});
+    });
   }
 
   void _sendMessage(String message) {
@@ -44,7 +56,7 @@ class _QAPageState extends State<QAPage> {
       _messages.add({"user": message});
     });
     _controller.clear();
-    _getBotResponse(message); // Get response from chatbot API
+    _getBotResponse(message); // Generate bot response
   }
 
   @override
@@ -52,11 +64,11 @@ class _QAPageState extends State<QAPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("BreakFree Chatbot",
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 24,
-          fontWeight: FontWeight.bold
-        )),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold
+          )),
         backgroundColor: Colors.purple[100],
       ),
       body: Column(
@@ -75,8 +87,8 @@ class _QAPageState extends State<QAPage> {
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: message.containsKey("user")
-                            ? Colors.blue[100]
-                            : Colors.green[100],
+                            ? Colors.grey[100]
+                            : Colors.purple[100],
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
