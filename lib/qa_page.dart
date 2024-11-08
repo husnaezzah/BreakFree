@@ -7,45 +7,81 @@ class QAPage extends StatefulWidget {
 
 class _QAPageState extends State<QAPage> {
   final TextEditingController _controller = TextEditingController();
-  final List<Map<String, String>> _messages = [];
+  final List<Map<String, dynamic>> _messages = []; // Use dynamic type to store Image widgets
 
   // Simulate bot responses based on simple keywords or questions
   void _getBotResponse(String message) {
-    String response;
+    if (message.toLowerCase().contains("hello") || message.toLowerCase().contains("hi")) {
+      _addTextResponse("Hello! How can I assist you today?");
 
- if (message.toLowerCase().contains("hello")|| message.toLowerCase().contains("hi")) {
-      response = "Hello! How can I assist you today?";
+    } else if (message.toLowerCase().contains("domestic") || message.toLowerCase().contains("violence")) {
+     setState(() {
+        _messages.add({
+          "bot_image": Image.asset(
+            "assets/images/sign.png",
+            width: 450, // Set desired width
+            height: 450, // Set desired height
+          ),
+        });
+         _messages.add({
+          "bot_image": Image.asset(
+            "assets/images/help.png",
+            width: 450, // Set desired width
+            height: 450, // Set desired height
+          ),
+        });
+        _addTextResponse("Domestic violence is a serious issues, and BreakFree is here to provide support, resources, and information.");
+      });
 
-} else if (message.toLowerCase().contains("domestic") || message.toLowerCase().contains("violence")) {
-  response = "Domestic violence is a serious issue, and BreakFree is here to provide support, resources, and information.";
+    } else if (message.toLowerCase().contains("sign") || message.toLowerCase().contains("symptom")) {
+      setState(() {
+        _messages.add({
+          "bot_image": Image.asset(
+            "assets/images/sign.png",
+            width: 450, // Set desired width
+            height: 450, // Set desired height
+          ),
+        });
+      });
 
-} else if (message.toLowerCase().contains("sign") || message.toLowerCase().contains("symptom")) {
-    response = "Signs of domestic violence can include controlling behavior, isolation from family and friends, verbal threats, physical harm, and emotional manipulation.";
+    } else if (message.toLowerCase().contains("what") || message.toLowerCase().contains("do")) {
+      _addTextResponse("Contact us and lodge your report now through our Capture feature.");
 
-} else if (message.toLowerCase().contains("what") || message.toLowerCase().contains("do")) {
-  response = "Contact us and lodge you report now through our Capture feature.";
+    } else if (message.toLowerCase().contains("resources")) {
+      _addTextResponse("Our app provides local resources including nearby shelters, hospitals, and hotlines. You can find help close by anytime.");
 
-} else if (message.toLowerCase().contains("resources")) {
-    response = "Our app provides local resources including nearby shelters, hospitals, and hotlines. You can find help close by anytime.";
+    } else if (message.toLowerCase().contains("emergency")) {
+      _addTextResponse("Activate SOS button now!");
 
-} else if (message.toLowerCase().contains("emergency") || message.toLowerCase().contains("help")) {
-    response = "Press the 'SOS' button to alert authorities.";
+    } else if (message.toLowerCase().contains("help")) {
+      // Add an image response for help or emergency
+      setState(() {
+        _messages.add({
+          "bot_image": Image.asset(
+            "assets/images/help.png",
+            width: 450, // Set desired width
+            height: 450, // Set desired height
+          ),
+        });
+        _addTextResponse("OR Press the SOS button.");
+      });
 
-} else if (message.toLowerCase().contains("confidentiality")) {
-    response = "Your privacy and safety are our top priorities. We offer data security to keep your information secure.";
+    } else if (message.toLowerCase().contains("confidentiality")) {
+      _addTextResponse("Your privacy and safety are our top priorities. We offer data security to keep your information secure.");
 
-} else if (message.toLowerCase().contains("trauma")) {
-    response = "Our app is designed to be sensitive to trauma, avoiding potentially triggering content while offering support resources.";
+    } else if (message.toLowerCase().contains("trauma")) {
+      _addTextResponse("Our app is designed to be sensitive to trauma, avoiding potentially triggering content while offering support resources.");
 
-} else if (message.toLowerCase().contains("stigma")) {
-    response = "We understand the fear of stigma. Our app offers anonymous support, so you can access help privately and securely.";
+    } else if (message.toLowerCase().contains("stigma")) {
+      _addTextResponse("We understand the fear of stigma. Our app offers anonymous support, so you can access help privately and securely.");
 
-} else {
-    response = "I'm here to help, but I didn't quite understand that. Could you please rephrase?";
-}
+    } else {
+      _addTextResponse("I'm here to help, but I didn't quite understand that. Could you please rephrase?");
+    }
+  }
 
-
-    // Add bot response to the messages list
+  // Helper method to add a text response to the messages
+  void _addTextResponse(String response) {
     setState(() {
       _messages.add({"bot": response});
     });
@@ -67,7 +103,7 @@ class _QAPageState extends State<QAPage> {
           style: TextStyle(
             color: Colors.black,
             fontSize: 24,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           )),
         backgroundColor: Colors.purple[100],
       ),
@@ -78,6 +114,19 @@ class _QAPageState extends State<QAPage> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
+
+                // Check if the message contains an image widget
+                if (message.containsKey("bot_image")) {
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: message["bot_image"], // Directly use the Image widget
+                    ),
+                  );
+                }
+
+                // Handle text messages
                 return ListTile(
                   title: Align(
                     alignment: message.containsKey("user")
