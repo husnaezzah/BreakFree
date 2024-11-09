@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'qa_page.dart'; // Import the Q&A page
-import 'assistance_page.dart'; // Import the Assistance page
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.purple[50],
       appBar: AppBar(
         backgroundColor: Colors.purple[100],
         title: Text(
           'BreakFree.',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Center(
@@ -23,15 +26,18 @@ class HomePage extends StatelessWidget {
               // Report Section
               Text(
                 'Report',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              Text('File evidence to support your report'),
-              SizedBox(height: 20),
+              Text(
+                'File evidence to support your report',
+                style: GoogleFonts.poppins(fontSize: 12),
+              ),
+              SizedBox(height: screenHeight * 0.02),
 
-              // Larger Capture Button
+              // Capture Button with Responsive Width and Height
               Container(
-                width: 320, // Increased width
-                height: 250, // Increased height
+                width: screenWidth * 0.8,
+                height: screenHeight * 0.25,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/capture');
@@ -40,7 +46,7 @@ class HomePage extends StatelessWidget {
                     foregroundColor: Colors.purple,
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     padding: EdgeInsets.all(10),
                   ),
@@ -49,14 +55,14 @@ class HomePage extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.camera_alt,
-                        size: 50, // Larger icon
+                        size: screenWidth * 0.1,
                         color: Colors.black,
                       ),
                       SizedBox(height: 10),
                       Text(
                         'Capture',
-                        style: TextStyle(
-                          fontSize: 18, // Larger text
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
                           color: Colors.purple,
                           fontWeight: FontWeight.bold,
                         ),
@@ -65,15 +71,18 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.03),
 
               // Resources Section
               Text(
                 'Resources',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              Text('Get immediate help and support'),
-              SizedBox(height: 20),
+              Text(
+                'Get immediate help and support',
+                style: GoogleFonts.poppins(fontSize: 12),
+              ),
+              SizedBox(height: screenHeight * 0.02),
 
               // Row for Q&A and Assistance Buttons
               Row(
@@ -84,12 +93,14 @@ class HomePage extends StatelessWidget {
                     Icons.security,
                     'Q&A',
                     '/qa',
+                    screenWidth,
                   ),
                   _buildOptionButton(
                     context,
                     Icons.medical_services,
                     'Assistance',
-                    '/assistance', // Ensure this is the correct route
+                    '/assistance',
+                    screenWidth,
                   ),
                 ],
               ),
@@ -97,67 +108,75 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.purple[100],
-        selectedItemColor: Colors.purple,
-        unselectedItemColor: Colors.black,
-        onTap: (int index) {
-          if (index == 2) {
-            Navigator.pushNamed(context, '/profile');
-          } else if (index == 1) {
-            Navigator.pushNamed(context, '/sos');
-          }
+
+      // Centered SOS button with Text instead of Icon
+      floatingActionButton: SizedBox(
+        width: 70, 
+        height: 70,
+        child: 
+      FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/sos');
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        backgroundColor: Colors.red,
+        shape: CircleBorder(),
+        child: Text(
+          'SOS',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
-          BottomNavigationBarItem(
-            icon: Text(
-              'SOS',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        ),
+      ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.purple[100],
+        shape: CircularNotchedRectangle(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(Icons.home, color: Colors.purple),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/home');
+                },
               ),
-            ),
-            label: '',
+              SizedBox(width: 40), // Space for the SOS button in the center
+              IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildOptionButton(BuildContext context, IconData icon, String label, String route) {
+  Widget _buildOptionButton(BuildContext context, IconData icon, String label, String route, double screenWidth) {
     return Container(
-      width: 150, // Standard width
-      height: 150, // Standard height
+      width: screenWidth * 0.35,
+      height: screenWidth * 0.35,
       child: ElevatedButton(
         onPressed: () {
           if (route == '/qa') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => QAPage()), // Navigate to Q&A page
-            );
-          } else if (route == '/assistance') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AssistancePage()), // Navigate to Assistance page
-            );
+            Navigator.push(context, MaterialPageRoute(builder: (context) => QAPage()));
           } else {
-            Navigator.pushNamed(context, route); // Navigate to other pages
+            Navigator.pushNamed(context, route);
           }
         },
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.purple,
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(30),
           ),
           padding: EdgeInsets.all(10),
         ),
@@ -166,13 +185,13 @@ class HomePage extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 40,
+              size: screenWidth * 0.1,
               color: Colors.black,
             ),
             SizedBox(height: 10),
             Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.roboto(
                 fontSize: 16,
                 color: Colors.purple,
                 fontWeight: FontWeight.bold,
