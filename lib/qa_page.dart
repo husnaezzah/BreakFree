@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QAPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _QAPageState extends State<QAPage> {
       _addTextResponse("Hello! How can I assist you today?");
 
     } else if (message.toLowerCase().contains("domestic") || message.toLowerCase().contains("violence")) {
-     setState(() {
+      setState(() {
         _messages.add({
           "bot_image": Image.asset(
             "assets/images/sign.png",
@@ -23,14 +24,14 @@ class _QAPageState extends State<QAPage> {
             height: 450, // Set desired height
           ),
         });
-         _messages.add({
+        _messages.add({
           "bot_image": Image.asset(
             "assets/images/help.png",
             width: 450, // Set desired width
             height: 450, // Set desired height
           ),
         });
-        _addTextResponse("Domestic violence is a serious issues, and BreakFree is here to provide support, resources, and information.");
+        _addTextResponse("Domestic violence is a serious issue, and BreakFree is here to provide support, resources, and information.");
       });
 
     } else if (message.toLowerCase().contains("sign") || message.toLowerCase().contains("symptom")) {
@@ -71,10 +72,10 @@ class _QAPageState extends State<QAPage> {
 
     } else if (message.toLowerCase().contains("trauma")) {
       _addTextResponse("Our app is designed to be sensitive to trauma, avoiding potentially triggering content while offering support resources.");
-
+      
     } else if (message.toLowerCase().contains("stigma")) {
       _addTextResponse("We understand the fear of stigma. Our app offers anonymous support, so you can access help privately and securely.");
-
+      
     } else {
       _addTextResponse("I'm here to help, but I didn't quite understand that. Could you please rephrase?");
     }
@@ -97,14 +98,18 @@ class _QAPageState extends State<QAPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("BreakFree Chatbot",
-          style: TextStyle(
+        title: Text(
+          "BreakFree Chatbot",
+          style: GoogleFonts.poppins(
             color: Colors.black,
-            fontSize: 24,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
-          )),
+          ),
+        ),
         backgroundColor: Colors.purple[100],
       ),
       body: Column(
@@ -120,7 +125,7 @@ class _QAPageState extends State<QAPage> {
                   return Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: message["bot_image"], // Directly use the Image widget
                     ),
                   );
@@ -133,7 +138,7 @@ class _QAPageState extends State<QAPage> {
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 12),
                       decoration: BoxDecoration(
                         color: message.containsKey("user")
                             ? Colors.grey[100]
@@ -144,6 +149,10 @@ class _QAPageState extends State<QAPage> {
                         message.containsKey("user")
                             ? message["user"]!
                             : message["bot"]!,
+                        style: GoogleFonts.poppins(
+                          fontSize: screenWidth * 0.04,  // Dynamic font size
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ),
                   ),
@@ -152,7 +161,7 @@ class _QAPageState extends State<QAPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
             child: Row(
               children: [
                 Expanded(
@@ -160,8 +169,12 @@ class _QAPageState extends State<QAPage> {
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: "Ask a question...",
+                      hintStyle: GoogleFonts.poppins(
+                        fontSize: screenWidth * 0.04,  // Dynamic hint text size
+                        color: Colors.grey[500],
+                      ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                   ),
